@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sun Nov  8 13:08:44 2015
-
-@author: albayrak
+This code downloaded from internet...
+updated partially... No quality check
+no -- nothing
+Use it at your own risk
 """
 
    # Tic Tac Toe  
