@@ -1,0 +1,7 @@
+*.py~
+*.pyc
+h4h5/
+*.swp
+*.png
+*.json~
+*.vim
