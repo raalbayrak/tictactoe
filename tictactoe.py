@@ -1,11 +1,25 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sun Nov  8 13:08:44 2015
-This code downloaded from internet...
+This code coppied/past from internet...
+https://inventwithpython.com/
+___________________
+Invent Your Own
+Computer Games 
+with Python, 2nd Edition
+By Al Sweigart
+___________________
+
+Authors of the book has a Creative Commons Attribution-Noncommercial-Share Alike 3.0 United States
+License.
+http://creativecommons.org/licenses/by-nc-sa/3.0/us/
+
+After download code
 updated partially... No quality check
 no -- nothing
-zip
+zip -- 
 Use it at your own risk
+
 """
 
    # Tic Tac Toe  
@@ -42,10 +56,6 @@ def inputPlayerLetter():
     else:
         return ['O', 'X']
 
-
-
-    
-
 def whoGoesFirst():
       # Randomly choose the player who goes first.
       if random.randint(0, 1) == 0:
@@ -53,7 +63,6 @@ def whoGoesFirst():
       else:
           return 'player'
           
-
 def playAgain():
       # This function returns True if the player wants to play again, otherwise it returns False.
       print('Do you want to play again? (yes or no)')
@@ -120,9 +129,6 @@ def isLocationFreeFromList(board, movesList):
       else:
           return False
 
-
-
-
 def get_playerletter(computerLetter):
     if computerLetter == 'X':
         playerLetter = 'O'
@@ -138,17 +144,6 @@ def ComputerCanWin(board, computerLetter):
             if isWinner(copy, computerLetter):
                 return True
     return False
-
-#def ifComputerCanWin(board, computerLetter):
-#    for i in range(1, 10):
-#        copy = getBoardCopy(board)
-#        if isSpaceFree(copy, i):
-#            makeMove(copy, computerLetter, i)
-#            if isWinner(copy, computerLetter):
-#                makeMove(board, computerLetter, i)
-#                drawBoard(board)
-#                sys.exit('Game is over -------')
-#    return
 
 
 def playerCanWin(board,playerLetter):              
@@ -245,17 +240,6 @@ def getComputerMove2(board, computerLetter, count, playerstarts):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 def isBoardFull(board):
 
      # Return True if every space on the board has been taken. Otherwise return False.
@@ -264,8 +248,6 @@ def isBoardFull(board):
              return False
      return True
     
-
-
 
 
 
