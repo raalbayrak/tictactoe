@@ -10,6 +10,7 @@ Use it at your own risk
    # Tic Tac Toe  
 
 import random
+import sys
 import pdb
    
 def drawBoard(board):
@@ -106,38 +107,154 @@ def chooseRandomMoveFromList(board, movesList):
           return random.choice(possibleMoves)
       else:
           return None
-  
-def getComputerMove(board, computerLetter):
-      # Given a board and the computer's letter, determine where to move and return that move.
-      if computerLetter == 'X':
-          playerLetter = 'O'
+
+def isLocationFreeFromList(board, movesList):
+      # Returns True or False
+      possibleMoves = []
+      for i in movesList:
+          if isSpaceFree(board, i):
+              possibleMoves.append(i)
+      if len(possibleMoves) != 0:
+          return True 
       else:
-          playerLetter = 'X'
-      # Here is our algorithm for our Tic Tac Toe AI:
-      # First, check if we can win in the next move
-      for i in range(1, 10):
-          copy = getBoardCopy(board)
-          if isSpaceFree(copy, i):
-              makeMove(copy, computerLetter, i)
-              if isWinner(copy, computerLetter):
-                  return i
-      # Check if the player could win on their next move, and block them.
-      for i in range(1, 10):
-          copy = getBoardCopy(board)
-          if isSpaceFree(copy, i):
-              makeMove(copy, playerLetter, i)
-              if isWinner(copy, playerLetter):
-                  return i
-      # Try to take one of the corners, if they are free.
-      move = chooseRandomMoveFromList(board, [1, 3, 7, 9])
-      if move != None:
-          return move
-      # Try to take the center, if it is free.
-      if isSpaceFree(board, 5):
-          return 5
-      # Move on one of the sides.
-      return chooseRandomMoveFromList(board, [2, 4, 6, 8])
- 
+          return False
+
+
+
+
+def get_playerletter(computerLetter):
+    if computerLetter == 'X':
+        playerLetter = 'O'
+    else:
+        playerLetter = 'X'
+    return playerLetter
+
+def ComputerCanWin(board, computerLetter):
+    for i in range(1, 10):
+        copy = getBoardCopy(board)
+        if isSpaceFree(copy, i):
+            makeMove(copy, computerLetter, i)
+            if isWinner(copy, computerLetter):
+                return True
+    return False
+
+#def ifComputerCanWin(board, computerLetter):
+#    for i in range(1, 10):
+#        copy = getBoardCopy(board)
+#        if isSpaceFree(copy, i):
+#            makeMove(copy, computerLetter, i)
+#            if isWinner(copy, computerLetter):
+#                makeMove(board, computerLetter, i)
+#                drawBoard(board)
+#                sys.exit('Game is over -------')
+#    return
+
+
+def playerCanWin(board,playerLetter):              
+    # Check if the player could win on their next move, and block them.
+    for i in range(1, 10):
+        copy = getBoardCopy(board)
+        if isSpaceFree(copy, i):
+            makeMove(copy, playerLetter, i)
+            if isWinner(copy, playerLetter):
+                return True
+    return False
+
+def getwinningPosition(board,playerLetter):              
+    # Check if the player could win on their next move, and block them.
+    for i in range(1, 10):
+        copy = getBoardCopy(board)
+        if isSpaceFree(copy, i):
+            makeMove(copy, playerLetter, i)
+            if isWinner(copy, playerLetter):
+                return i
+
+def getComputerMove(board, computerLetter):
+    '''
+    This function finds the next move of the 
+    computer.
+    '''
+    playerLetter = get_playerletter(computerLetter) #get player letter (either comp or person)
+
+    if ComputerCanWin(board, computerLetter):
+        moveto = getwinningPosition(board,playerLetter)
+        return moveto
+        
+
+    # If player is winning block the position
+    if playerCanWin(board,playerLetter):
+        moveto = getwinningPosition(board,playerLetter)
+        return moveto
+
+    # Try to take one of the corners, if they are free.
+    if isLocationFreeFromList(board, [1, 3, 7, 9]):
+        moveto = chooseRandomMoveFromList(board, [1, 3, 7, 9])
+        return moveto
+
+    # Try to take the center, if it is free.
+    if isSpaceFree(board, 5):
+        moveto = 5
+        return moveto
+
+    if isLocationFreeFromList(board, [2, 4, 6, 8]):
+        moveto = chooseRandomMoveFromList(board, [2, 4, 6, 8])
+        return moveto
+
+
+def getComputerMove2(board, computerLetter, count, playerstarts):
+    '''
+    This function finds the next move of the 
+    computer.
+    '''
+    playerLetter = get_playerletter(computerLetter) #get player letter (either comp or person)
+
+
+    if playerstarts & count==1:
+        if isSpaceFree(board, 5):
+            moveto = 5
+            return moveto
+        else:
+            pass
+
+
+    if ComputerCanWin(board, computerLetter):
+        moveto = getwinningPosition(board,playerLetter)
+        return moveto
+        
+
+    # If player is winning block the position
+    if playerCanWin(board,playerLetter):
+        moveto = getwinningPosition(board,playerLetter)
+        return moveto
+
+    # Try to take one of the corners, if they are free.
+    if isLocationFreeFromList(board, [1, 3, 7, 9]):
+        moveto = chooseRandomMoveFromList(board, [1, 3, 7, 9])
+        return moveto
+
+    # Try to take the center, if it is free.
+    if isSpaceFree(board, 5):
+        moveto = 5
+        return moveto
+
+    if isLocationFreeFromList(board, [2, 4, 6, 8]):
+        moveto = chooseRandomMoveFromList(board, [2, 4, 6, 8])
+        return moveto
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def isBoardFull(board):
 
      # Return True if every space on the board has been taken. Otherwise return False.
@@ -154,27 +271,33 @@ def isBoardFull(board):
 if __name__ == "__main__":
 
     print('Welcome to Tic Tac Toe!')
+
     while True:
         # Reset the board
         theBoard = [' '] * 10
         playerLetter, computerLetter = inputPlayerLetter()
         turn = whoGoesFirst()
+        if turn == 'player':
+            playerstarts = True
+        else:
+            playerstarts = False 
+
         print('The ' + turn + ' will go first.')
         #gameIsPlaying = True
+        drawBoard(theBoard)
         
-        say = 0
+        count = 1
         while True:
-            print 'game -->', say
-            say = say + 1
-            drawBoard(theBoard)
             if turn == 'player': # Player’s turn.
                 move     = getPlayerMove(theBoard) #1,2,3,...,9
                 theBoard = makeMove(theBoard, playerLetter, move) #board[move] is updated
                 if isWinner(theBoard, playerLetter):
+                    drawBoard(theBoard)
                     print('Hooray! You have won the game!')
                     break
                 else:
                     if isBoardFull(theBoard):
+                        drawBoard(theBoard)
                         print('The game is a tie!')
                         break
                     else:
@@ -185,7 +308,15 @@ if __name__ == "__main__":
                 print '----------------------'
                 print 'Computer playing -----'
 
-                move = getComputerMove(theBoard, computerLetter)
+
+
+                #move = getComputerMove(theBoard, computerLetter)
+                move = getComputerMove2(theBoard, computerLetter, count, playerstarts)
+
+
+
+
+
                 theBoard = makeMove(theBoard, computerLetter, move)
                 if isWinner(theBoard, computerLetter):
                     print('The computer has beaten you! You lose.')
@@ -196,3 +327,6 @@ if __name__ == "__main__":
                         break
                     else:
                         turn = 'player'
+            print 'game -->', count
+            drawBoard(theBoard)
+            count = count + 1
